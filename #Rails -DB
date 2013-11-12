@@ -1,0 +1,32 @@
+######################################################################################################
+#       R U B Y   R A I L S   D B
+######################################################################################################
+#RAILS DB
+#/config/database.yaml	=> It has the database configuration
+
+#to use another dtabase, like mysql you need to add the gem for mysql
+#	Add to Gemfile
+#			gem 'mysql'	#Or nother gem to use
+#	Add to database.yaml
+#			adapter: 'mysql'	#or another adapter to use
+#			database: db_name
+#			hostname: 'localhost'
+#			user: your_user
+#			password: your_password
+
+#rake db:setup	# runs =>	rake db:create & rake db:migrate & rake db:seeds
+
+rails db 	#opens a conection to the rails db sqlite
+.tables		#shows all the tables that are createdon the sqlite db
+.quit		#exits the database
+
+
+
+# To insert new data into the database
+# on rails console
+s = Student.last
+s.courses.create(title: "some title", description: "some description")	#this createsa new course and saves it to the db
+nc=s.courses.new(title: "some title", description: "some description")		#this createsa new course and does NOT save it to the db
+nc=s.courses.build(title: "some title", description: "some description")	#this createsa new course and does NOT save it to the db
+# you must save the new/built course for it to be saves in the db
+nc.save

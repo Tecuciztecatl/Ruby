@@ -1,0 +1,298 @@
+######################################################################################################
+#             R u b y   o n   R a i l s   H E L P
+######################################################################################################
+# api.rubyonrails.org
+# edgeguides.rubyonrails.org
+# brakeman
+# github.com/reneedv/class_mngmt_November6_8
+# ruby-toolbox.com
+# http://railsapps.github.io/
+# Authenticaion => https://www.ruby-toolbox.com/projects/devise
+
+# Gemfile	=>	That is where the gems used by the app are specified, you may run bundle update to update the gems to the latest version
+# bundle install
+# bundle update
+# you may add a group to the gemfile
+#	group :development, :test do
+#		gem 'rspec-rails'	#What you want to do
+#	end
+
+
+
+######################################################################################################
+#									D I R   S T R U C T U R E
+######################################################################################################
+# /app 				=> directory has all the code for the dynamic contet of the APP
+# /app/views 		=> has the view for the created scaffolds
+# /app/controllers 	=> has the controllers for the views created by the scaffolds
+#						The white list of permitted parameters for post is specified on the controller itself
+# /app/moderls 		=> has the models for the views created by the scaffolds
+# /app/assets		=> all js, css and images must be here
+# /public 			=> directory has all the htmls that are 100% static, no dynamic loading. Generally error pages are located here.
+# /db 				=> directory has the flat file that is the database "something.sqlite3"
+# /db/migrate 		=> directory has a ".rb" code for database matching for each model|scaffold created
+# /config/routes.rb => configure the http_routes for the links
+# 						To get the routes configured run the command "rake routes"
+# /app/helpers		=> this are modules that are included in every view by default
+#						use these helpers to add presentation methods
+
+
+#######################################################################################################
+# 									N O T A T I O N   H E L P
+#######################################################################################################
+# ALWAYS SINGULAR
+#	Class names are always singular
+#	models are always singular
+# ALWAYS PLURAL
+#	Controlls are always plural unless you it is uncoutnable
+#	Views folder are going to match the controllers, so plural.
+#	helpers are plural
+# EXTRAS
+#	Classes always start with a Capital leter
+#	variables always are lower case
+
+
+
+#######################################################################################################
+# 									C R E A T I N G   A   N E W  A P P
+#######################################################################################################
+# to create a new app
+rails new "APP name"
+# Start the server
+# cd to APP directory
+# start the rails server
+rails s
+# to start rails using another port than the default port use "rails s -p 3004"
+
+
+# Create a scaffold to use for the APP (Like an skeleton for the app) => model, controller, db migration, and view
+# creates a script to create the table for the scaffold
+rails g scaffold Student full_name age:integer bio:text title
+rails destroy scaffold Student		#destroys the scaffold specified
+
+# create the tables on the db with rake
+rake db:migrate		#creates all the databases that are specified by the created migrations
+rade db:rollback
+rails console		#connects to a rails console (irb) with all the app already loaded.
+
+
+# create a new controller => controllers
+# rails g controller ctrllr_name ctrlr_method1 ctrlr_method2
+rails g controller Welcome index
+
+# create a new model => database migration and models
+rails g model Course title description:text student_id:integer
+
+# generate a migration
+#				  Remove"something"From"where_it_should_be_removed" "what_should_be_removed"
+rails g migration RemoveStudentIdFromCourses student_id
+#				  Add"what_is_to_be_added"To"table_where_it_should_be_added" "what_is_to_be_added"
+rails g migration AddEmailToStudents email
+
+
+
+#####################################################################################################
+#				C R E A T I N G   A   R O U T E   F O R   A   C U S T O M   HTML.ERB
+#####################################################################################################
+#	1st.-	create the desired_name.html.erb file
+#			create the desired_name.json.jbuilder
+#	2nd.-	Place both of those files under the "app/views/DESIRED_CONTROLLER_VIEW"
+#	3rd.-	write a method called "desired_name" under "app/controller/DESIRED_CONTROLLER"
+#			EX:			# GET /students
+#  						# GET /students.json
+#						def desired_name
+#							DESIRED_RESULTS_OUTPUT; ex: @students = Student.all
+#						end
+#	4th.-	Create the route under "/config/routes.rb"
+#			Ex:		get '/PATH_NAME', to: 'DESIRED_CONTROLLER#desired_name', as: :desired_PREFIX
+# to link to a custom path you must use the prefix with "_path" or "_url"
+#		ex:  desired_PREFIX_path or desired_PREFIX_url
+#	You may also pass an object to it.
+#		ex:  desired_PREFIX_path(object) or desired_PREFIX_url(object)
+
+
+
+#####################################################################################################
+#				C R E A T E   R S P E C   F I L E   F O R   R A I L S   A P P
+#####################################################################################################
+#ON Gemfile
+#you may add a group to the gemfile
+#	group :development, :test do
+#		gem 'rspec-rails'	#What you want to do
+#	end
+# run "bundle install"
+#you may also run "bundle install --without production"
+rails g rspec:install	#this creates an rspec file to test the app
+rails g rspec:model Student 	#Creates an rspec model for the Student class
+#To run the test run "rake spec"
+
+
+
+#######################################################################################################
+# 									E N V I R O N M E N T S
+#######################################################################################################
+#You must have an environment file inside /config/environments/name_of_environmet.rb
+#You must have an environment database configuration inside /config/database.yml
+#You must have the gems installed for that environment too
+#
+#To start the server in a different environmet create a RAILS_ENV variable and give it the value that you need
+RAILS_ENV="production" rails s
+RAILS_ENV="production" rake db:migrate
+RAILS_ENV="production" rails c
+
+
+
+#######################################################################################################
+#		 								L A Y O U T S
+#######################################################################################################
+# Create a layout file "name.html.erb" inside /views/layouts/
+# Configure the layout file to implement, require the desired JS and CSS
+#	<%= stylesheet_link_tag    "stylesheet_name", media: "all", "data-turbolinks-track" => true %>
+#	<%= javascript_include_tag "javascript_name", "data-turbolinks-track" => true %>
+#	<%= csrf_meta_tags %>
+# Inside the Application controller specify the layout to be used for that controller's views
+#	layout 'layout_name_withouth_html_erb'
+# Create custom css and js, put the inside /app/assets/javascripts|stylesheets
+#		javascript_name.js.coffee
+#		stylesheet_name.css.scss
+#
+# ~~~ To create a partial html file: ~~~
+# Create a file called "_header.html.erb"
+#	<h1><%= link_to 'es', es_path, method: :post %> <%= link_to 'en', en_path, method: :post %></h1>
+# In application.html.erb write, or in the desired view:
+#	<%= render 'layouts/header' %>
+
+
+
+######################################################################################################
+#									N A M E S P A C E S
+######################################################################################################
+# In the /config/routes.rb you can specify namespaces to certain routes.
+#	  namespace :nmspc do
+#	    get "path" => "controller#what_to_show", as: :notwelcome
+#	  end
+# You need to namespace the controller in folders and in class
+#	/app/controllers/folder1/folder2
+#	folder1::folder2::controller_name < Inherit_from_Controller
+# You also need to namespace the html
+
+
+
+######################################################################################################
+#										M A I L E R
+######################################################################################################
+# Mailers are specified and classes created under "/app/mailers"
+# Create a file named "test_mailer.rb" with the content being:
+#			class TestMailer < ActionMailer::Base
+#				default from: "from@example.com"
+# 				def notify_students
+#   				@students = Student.all
+# 				end
+#			end
+#
+# M I S S I N G   I N F O R M A T I O N
+#
+
+
+
+######################################################################################################
+#										M I M E T Y P E
+######################################################################################################
+# These are located inside the file "/config/initializers/mime_types.rb"
+#
+# M I S S I N G   I N F O R M A T I O N
+#
+
+
+
+######################################################################################################
+#								L O C A L E   ( L A N G U A G E S )
+######################################################################################################
+# /config/initiliazers/inflections.rb 	=>	pluralization function is here
+# /config/locales
+# /config/application.rb 		=> here you can config multiple things, locale and defaults are one of them
+# https://github.com/svenfuchs/rails-i18n 	=> has some locales ready to be used
+# HOW TO LINKS TO DIFFERENT LOCALES
+# SINTAX on the html:		<%= link_to 'es', es_path, method: :post %> <%= link_to 'en', en_path, method: :post %>
+# In the /config/routes.rb file write the routes for the different locales
+#				post 'es', to: 'locales#es'
+#				post 'en', to: 'locales#en'
+# Create a /app/controllers/locales_controller.rb with the nex definitions
+#			class LocalesController < ActionController::Base
+#				def es
+#					I18n.locale = :es
+#					redirect_to request.referer
+#				end
+#
+#				def en
+#					I18n.locale = :en
+#					#redirect_to root_path
+#					redirect_to request.referer
+#				end
+#			end
+
+
+
+######################################################################################################
+#								A U T H E N T I C A T I O N
+######################################################################################################
+# Devise getting Started	=>	https://github.com/plataformatec/devise#getting-started
+# Gem for authentication, put it in the "Gemfile"
+#		gem 'devise'
+#
+# run "bundle install"
+# run "rails g devise:install"
+#
+#	Add this to your headers:
+#		<p class="notice"><%= notice %></p>
+#		<p class="alert"><%= alert %></p>
+#
+# Generate a devise by running
+#	rails g devise Devise_name_to_add_to_db_migration
+#		this creates a db migration and a model
+#		Devise needs an email and an encrypted password
+#
+#
+# Add devise_for at routes.rb
+# this devise_for must be pointing to the model that will require the authentication
+#	devise_for ":model_name"
+#
+# To require the authentication in certain pages write:
+#		"before_filter :authenticate_"devise_name"!"	#THIS SHOULD GO IN THE MODEL OR CONTROLLER
+#
+# To create a logout button:
+#		<% if "devise_name"_signed_in? %>
+#			<%= link_to 'logout', destroy_"devise_name"_session_path, method: :delete %>
+#		<% end %>
+#
+#	To change the default path for sign_in and sign_out write the following inside the application_controller
+#		def after_sign_in_path_for variable
+#			'/desired/path'
+#		end
+#
+# To customize the views for the authentication run the command
+#	rails g devise:views
+
+
+
+######################################################################################################
+#							C A R R I E R W A V E    U P L O A D E R
+######################################################################################################
+# https://github.com/carrierwaveuploader/carrierwave
+# add the gem 'carrierwave'
+# rails g uploader Picture
+# rails g migration AddPictureToStudents picture
+# On the Student class write
+#		mount_uploader :picture, PictureUploader
+# On the form to upload the image write
+#			<%= form_for @student, :html => {:multipart => true} do |f| %>
+#  				<p>
+#	   				<label>My student</label>
+#					<%= image_tag(@student.picture_url) if @student.picture? %>
+#	  				<%= f.file_field :picture %>
+#					<%= f.hidden_field :picture_cache %>
+#				</p>
+#			<% end %>
+#
+# To show the image in the html write:
+#			<%= image_tag(@student.picture_url) if @student.picture? %>

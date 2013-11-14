@@ -1,0 +1,6 @@
+<p style="color:red"><%= link_to 'es', es_path, method: :post %> <%= link_to 'en', en_path, method: :post %></p>
+<% if student_signed_in? %>
+<%= link_to 'logout', destroy_student_session_path, method: :delete %>
+<% end %>
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>

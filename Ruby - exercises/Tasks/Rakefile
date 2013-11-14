@@ -1,0 +1,24 @@
+task :test do
+  puts "Hello World!"
+end
+
+desc "Read all the names"
+task :read_names do
+  store_names = []
+  File.open("names", "r").each{|e| print e}
+end
+
+desc "Create a dir named created"
+task :create_dir do
+  Dir.mkdir("class") unless Dir.exists?("class")
+end
+
+desc "Create dir for each student"
+task :create_dir_stu => [:create_dir] do
+  Dir.chdir("class")
+  read_lines("../names"){|name| Dir.mkdir(name) unless Dir.exists?(name)}
+end
+
+def read_lines file="names"
+  File.open(file, "r").each{|e| yield e.chomp}
+end

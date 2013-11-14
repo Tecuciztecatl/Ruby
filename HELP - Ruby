@@ -1,6 +1,7 @@
 ######################################################################################################
 #             R U B Y
 ######################################################################################################
+http://installfest.railsbridge.org/installfest/choose_your_operating_system?back=installfest%23step3
 ruby-doc.org/core-1.9.3/	-- oficial doc site, defaults to the latest version, you can change that
 rubygems.org				-- webpage that has al the ruby gems available.
 rubular.com					-- webpage to analyze regular expressions.

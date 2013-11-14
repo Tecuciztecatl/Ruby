@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Full name:</strong>
+  <%= @student.full_name %>
+</p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @student.age %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @student.title %>
+</p>
+
+<p>
+  <strong>E-Mail:</strong>
+  <%= @student.email %>
+</p>
+
+<p>
+  <strong>Bio:</strong>
+  <%= @student.bio %>
+</p>
+
+<h2>Courses</h2>
+<ul>
+	<% @student.courses.each do |course| %>
+	<li><%= course.title %><%= "=>"+course.description %></li>
+	<% end %>
+</ul>
+
+<!--<h2>Classes</h2>
+<ul>
+	<%# @student.classes.each do |course| %>
+	<li><%#= course.title%><%#= "=>"+course.description %></li>
+	<%# end %>
+</ul>-->
+
+<%= link_to 'Edit', edit_student_path(@student) %> |
+<%= link_to 'Back', students_path %>

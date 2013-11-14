@@ -1,0 +1,32 @@
+<h1>MY Listing students</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Full name</th>
+      <th>Title</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @students.each do |student| %>
+      <tr>
+        <td><%= link_to first_name(student.full_name), hellos_url(student) %></td>
+        <td><%= link_to student.full_name, hellos_url(student) %></td>
+        <td><%= student.title %></td>
+        <!--<td><%# link_to 'Show', student %></td>This line can be uncommented if using resources :students in the routes.rb-->
+        <td><%= link_to 'Show', student_path(student) %></td><!--If you are specifying the routes manually, you must use _path(object)-->
+        <td><%= link_to 'Editerssers', edit_student_path(student) %></td>
+        <td><%= link_to 'Destroyersss', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Studenterss', new_student_path %>

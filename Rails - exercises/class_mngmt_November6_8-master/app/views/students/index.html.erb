@@ -1,0 +1,29 @@
+<h1>All Students</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Full name</th>
+      <th>Title</th>
+      <th>Updated At</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @students.each do |student| %>
+      <tr>
+        <td><%= link_to present_full_name(student.full_name), student_path(student) %></td>
+        <td><%= time_format(student.updated_at) %>
+        <td><%= student.title %></td>
+        <td><%= link_to 'Edit', edit_student_path(student) %></td>
+        <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Student', new_student_path %>
